@@ -38,7 +38,6 @@ async def get_books(session: SessionDep, current_user: CurrentUser, crud_event_q
     },
 )
 async def get_book(book_id: int, session: SessionDep, current_user: CurrentUser, crud_event_queue: SSEQueueDep):
-    
     book = session.get(Books, book_id)
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")

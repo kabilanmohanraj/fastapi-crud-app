@@ -6,11 +6,14 @@ from backend.app.shared_queue import SSEQueueDep
 
 router = APIRouter(prefix="/events", tags=["events"])
 
+# generator function to listen for events in the shared queue
 async def crud_event_stream(q: asyncio.Queue) -> AsyncGenerator[str, None]:
     while True:
         event = await q.get()
         yield f"payload: {event}\n\n"
 
+
+# SSE endpoint to stream CRUD events
 @router.get(
     "/crud",
     summary="Stream CRUD events",
