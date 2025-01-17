@@ -1,5 +1,8 @@
 # SQLite configuration
-SQLITE_FILE_PATH = "./db/books.db"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SQLITE_FILE_PATH = f"{os.path.join(BASE_DIR, 'db', 'books.db')}"
 SQLITE_DB_URL = f"sqlite:///{SQLITE_FILE_PATH}"
 
 # JWT configuration
