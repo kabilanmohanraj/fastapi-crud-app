@@ -67,3 +67,10 @@ PYTHONPATH=$(pwd) uvicorn backend.app.main:library_app --host=0.0.0.0 --port=800
 4. Access the application:
    - Main API: http://localhost:8000
    - API Documentation (Swagger UI): http://localhost:8000/docs
+
+5. Testing the API endpoints:
+   - Authentication: An admin user is created when the application starts. This use can be used to authenticate and obtain a JWT token to test the other endpoints with added security.
+```
+Admin username: root@test.com
+Admin password: admin
+```
