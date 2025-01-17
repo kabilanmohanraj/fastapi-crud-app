@@ -42,7 +42,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
 
 async def get_current_user(session: SessionDep, token: TokenDep):
     credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+        status_code=401,
         detail="Could not validate credentials",
     )
     try:
@@ -71,6 +71,8 @@ async def get_current_user(session: SessionDep, token: TokenDep):
     description=(
         "Authenticate a user by validating their email and password. "
         "Returns a JSON Web Token (JWT) if the credentials are correct."
+        "The endpoint uses FastAPI's OAuth2PasswordRequestForm class to parse the form data, where `username` and `password` are required fields. Other fields are optional."
+        "In our endpoint, `username` is the user's email and `password` is the user's password."
     ),
     response_model=Token,
     responses={

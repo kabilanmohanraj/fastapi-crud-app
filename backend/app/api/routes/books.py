@@ -10,13 +10,14 @@ router = APIRouter(prefix="/books", tags=["books"])
 
 
 @router.get("/", response_model=list[BookPublic])
-async def get_books(session: SessionDep, current_user: CurrentUser, crud_event_queue: SSEQueueDep, skip: int = 0, limit: int = 10):
+async def get_books_with_pagination(session: SessionDep, current_user: CurrentUser, crud_event_queue: SSEQueueDep, skip: int = 0, limit: int = 10):
     """
     Retrieve a list of books with pagination.
     
-    **Input Parameters**:
+    **Input Parameters (Query parameters)**:
     - `skip` (int): Number of books to skip (for pagination). Default is 0.
-    - `limit` (int): Maximum number of books to retrieve. Default is 10.
+    - `limit` (int): Maximum number of books to retrieve. Default is 10. \n
+    - Sample request: `/books?skip=10&limit=5` -> retrieves books 11 to 15.
     """
     
     query = select(Books).offset(skip).limit(limit)
