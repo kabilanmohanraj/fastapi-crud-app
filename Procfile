@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker backend.app.main:library_app
+web: uvicorn -w 4 -k uvicorn.workers.UvicornWorker backend.app.main:library_app
