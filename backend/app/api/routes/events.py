@@ -2,7 +2,7 @@ import asyncio
 from typing import AsyncGenerator
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
-from .shared_queue import SSEQueueDep
+from backend.app.shared_queue import SSEQueueDep
 
 router = APIRouter(prefix="/events", tags=["events"])
 
