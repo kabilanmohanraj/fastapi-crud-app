@@ -41,7 +41,7 @@ Test directory for application unit tests
 ## Development Setup
 
 1. The application entrypoint is in the `backend/app` directory
-2. Dependencies are managed through both Pipenv and requirements files
+2. Dependencies are managed through both Pipenv
 3. Tests are organized in the `tests` directory
 4. Database file is stored in the `db` directory
 
