@@ -19,3 +19,10 @@ def on_startup():
 @library_app.get("/")
 async def root():
     return {"message": "Welcome to the Library Management Application!"}
+
+# Only execute this if the file is run directly
+if __name__ == "__main__":
+    import uvicorn
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("backend.app.main:library_app", host="0.0.0.0", port=port, reload=True)
