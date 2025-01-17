@@ -1,8 +1,6 @@
 from sqlmodel import Session, select
-from app.models import User, UserCreate
-from app.core.security import get_password_hash
-from app.core import db_utils
-from app import config
+from backend.app.models import User, UserCreate
+from backend.app.core.security import get_password_hash
 
 def filter_user_by_email(email: str, session: Session):
     # filter the user by email

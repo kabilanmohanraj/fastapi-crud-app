@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 
-from app.models import Books, BookCreate, BookPublic, BookUpdate
-from app.core.db import SessionDep
-from app.api.dependencies import CurrentUser
-from.shared_queue import SSEQueueDep
+from backend.app.models import Books, BookCreate, BookPublic, BookUpdate
+from backend.app.core.db import SessionDep
+from backend.app.api.dependencies import CurrentUser
+from .shared_queue import SSEQueueDep
 
 router = APIRouter(prefix="/books", tags=["books"])
 

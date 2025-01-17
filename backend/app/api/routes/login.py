@@ -4,12 +4,12 @@ from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import select
 
-import app.config as config
-from app.models import Token, TokenData, UserLogin
-from app.core.db import SessionDep
-from app.core.db_utils import filter_user_by_email
-from app.models import User
-from app.core.security import verify_password, TokenDep
+import backend.app.config as config
+from backend.app.models import Token, TokenData, UserLogin
+from backend.app.core.db import SessionDep
+from backend.app.core.db_utils import filter_user_by_email
+from backend.app.models import User
+from backend.app.core.security import verify_password, TokenDep
 
 
 from typing import Annotated, Union

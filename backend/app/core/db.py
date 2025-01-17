@@ -1,9 +1,9 @@
 from typing import Annotated
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine, select
-from app import config
-from app.models import User, UserCreate
-from app.core import db_utils
+from backend.app import config
+from backend.app.models import User, UserCreate
+from backend.app.core import db_utils
 
 connect_args = {"check_same_thread": False}
 engine = create_engine(str(config.SQLITE_DB_URL), connect_args=connect_args)

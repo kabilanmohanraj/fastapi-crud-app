@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.api.routes import login, books, users, events
-from app.core.db import init_db
+from backend.app.api.routes import login, books, events
+from backend.app.core.db import init_db
 
 def create_application() -> FastAPI:
     application = FastAPI(title="Library Management Application")
