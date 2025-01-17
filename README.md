@@ -69,8 +69,14 @@ PYTHONPATH=$(pwd) uvicorn backend.app.main:library_app --host=0.0.0.0 --port=800
    - API Documentation (Swagger UI): http://localhost:8000/docs
 
 5. Testing the API endpoints:
-   - Authentication: An admin user is created when the application starts. This use can be used to authenticate and obtain a JWT token to test the other endpoints with added security.
+   - Manual Testing:
+       - Authentication: An admin user is created when the application starts. This use can be used to authenticate and obtain a JWT token to test the other endpoints with added security.
 ```
 Admin username: root@test.com
 Admin password: admin
+```
+   - Automated Testing: Tests for the endpoints have been implemented using PyTest. To run the tests, use the following command from the root directory of the project.
+```
+pytest backend/app/tests/tests_login.py
+pytest backend/app/tests/tests_books.py
 ```
