@@ -93,7 +93,7 @@ async def user_login(session: SessionDep, form_data: Annotated[OAuth2PasswordReq
     user = authenticate_user(UserLogin(email=form_data.username, password=form_data.password), session)
     if not user:
         # if not, raise an HTTP 404 exception
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect username or password")
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
 
     # if the user is found, return a newly generated JWT token
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
