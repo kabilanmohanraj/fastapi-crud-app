@@ -63,7 +63,7 @@ def test_update_book():
 def test_delete_book():
     access_token = authenticate()
     headers = {"Authorization": f"Bearer {access_token}"}
-    book_id = 1  # Assuming book with ID 1 exists
+    book_id = 501  # Assuming book with ID 1 exists
     response = client.delete(f"/books/{book_id}", headers=headers)
     if response.status_code == 200:
         assert "title" in response.json()
