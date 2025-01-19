@@ -14,12 +14,6 @@ router = APIRouter(prefix="/books", tags=["books"])
 @router.get(
     "/", response_model=list[BookPublic],
     summary="Retrieve a list of books with pagination.",
-    description="""
-    **Input Parameters (Query parameters)**:
-    - `skip` (int): Number of books to skip (for pagination). Default is 0.
-    - `limit` (int): Maximum number of books to retrieve. Default is 10. \n
-    - Sample request: `/books?skip=10&limit=5` -> retrieves books 11 to 15.
-    """,
     responses={
         200: {"description": "Books retrieved successfully."},
         400: {"description": "Invalid pagination parameters."},
@@ -28,6 +22,12 @@ router = APIRouter(prefix="/books", tags=["books"])
     }
 )
 async def get_books_with_pagination(session: SessionDep, current_user: CurrentUser, crud_event_queue: SSEQueueDep, skip: int = 0, limit: int = 10):
+    """
+    **Input Parameters (Query parameters)**: \n
+    - `skip` (int): Number of books to skip (for pagination). Default is 0. \n
+    - `limit` (int): Maximum number of books to retrieve. Default is 10. \n
+    - Sample request: `/books?skip=10&limit=5` -> retrieves books 11 to 15. \n
+    """
     if skip < 0 or limit < 1 or limit > 100:
         raise HTTPException(status_code=400, detail="Invalid pagination parameters. Ensure 0 <= skip and 1 <= limit <= 100.")
     
@@ -58,7 +58,7 @@ async def get_books_with_pagination(session: SessionDep, current_user: CurrentUs
 async def get_book_by_id(book_id: int, session: SessionDep, current_user: CurrentUser, crud_event_queue: SSEQueueDep):
     book = session.get(Books, book_id)
     if not book:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Book not found.")
     
     await crud_event_queue.put(f"Book fetched: {book.title} by {book.author} (ID: {book_id})")
     
