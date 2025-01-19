@@ -1,3 +1,4 @@
+from enum import Enum
 from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 
@@ -84,7 +85,7 @@ async def create_book(book: BookCreate, session: SessionDep, current_user: Curre
             author=book.author,
             published_date=book.published_date,
             summary=book.summary,
-            genre=book.genre
+            genre=book.genre.value
         )
         session.add(new_book)
         session.commit()
@@ -115,10 +116,12 @@ async def update_book(book_id: int, book: BookUpdate, session: SessionDep, curre
     try:
         book_in_db = session.get(Books, book_id)
         if not book_in_db:
-            raise HTTPException(status_code=404, detail="Book not found")
+            raise HTTPException(status_code=404, detail="Book not found.")
 
         book_data = book.model_dump(exclude_unset=True)
         for field, value in book_data.items():
+            if isinstance(value, Enum):
+                value = value.value
             setattr(book_in_db, field, value)
 
         session.add(book_in_db)
@@ -150,7 +153,7 @@ async def delete_book(book_id: int, session: SessionDep, current_user: CurrentUs
     try:
         book = session.get(Books, book_id)
         if not book:
-            raise HTTPException(status_code=404, detail="Book not found")
+            raise HTTPException(status_code=404, detail="Book not found.")
         
         session.delete(book)
         session.commit()

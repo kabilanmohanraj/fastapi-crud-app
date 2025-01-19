@@ -49,7 +49,7 @@ def test_create_book():
 def test_update_book():
     access_token = authenticate()
     headers = {"Authorization": f"Bearer {access_token}"}
-    book_id = 1  # Assuming book with ID 1 exists
+    book_id = 501  # Assuming book with ID 1 exists
     update_data = {
         "title": "Updated Book Title"
     }

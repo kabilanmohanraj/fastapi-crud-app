@@ -62,7 +62,7 @@ class BookUpdate(BookBase):
     author: Union[str, None] = Field(default=None, min_length=1, max_length=255)
     published_date: Union[date, None] = None
     summary: Union[str, None] = None
-    genre: Union[Genre, None] = None
+    genre: Union[Genre, None] = Field(default=None, sa_type=AutoString)
     
 # 
 # models for JWT authentication
