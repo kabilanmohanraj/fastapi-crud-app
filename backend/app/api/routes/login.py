@@ -1,15 +1,13 @@
 from fastapi.security import OAuth2PasswordRequestForm
 import jwt
 from datetime import datetime, timedelta, timezone
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import select
+from fastapi import APIRouter, Depends, HTTPException
 
 import backend.app.config as config
-from backend.app.models import Token, TokenData, UserLogin
+from backend.app.models import Token, UserLogin
 from backend.app.core.db import SessionDep
 from backend.app.core.db_utils import filter_user_by_email
-from backend.app.models import User
-from backend.app.core.security import verify_password, TokenDep
+from backend.app.core.security import verify_password
 
 
 from typing import Annotated, Union
@@ -39,31 +37,6 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
     
     return encoded_jwt
-
-async def get_current_user(session: SessionDep, token: TokenDep):
-    credentials_exception = HTTPException(
-        status_code=401,
-        detail="Could not validate credentials",
-    )
-    try:
-        payload = jwt.decode(token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-        token_data = TokenData(sub=username)
-    except jwt.InvalidTokenError:
-        raise credentials_exception
-    
-    user = filter_user_by_email(token_data.sub, session)
-    
-    # check if user exists
-    if user is None:
-        raise credentials_exception
-    
-    # check if user is active
-    if not user.is_active:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return user
 
 @router.post(
     "/login",
@@ -95,7 +68,7 @@ async def user_login(session: SessionDep, form_data: Annotated[OAuth2PasswordReq
     user = authenticate_user(UserLogin(email=form_data.username, password=form_data.password), session)
     if not user:
         # if not, raise an HTTP 404 exception
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=404, detail="Incorrect username or password")
 
     # if the user is found, return a newly generated JWT token
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
